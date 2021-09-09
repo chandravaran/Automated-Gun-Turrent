@@ -1,0 +1,35 @@
+<launch>
+	<arg name="paused" default="false"/>
+	<arg name="gui" default="true"/>
+	<arg name="verbose" default="false"/>
+	<arg name="debug" default="false"/>
+    <arg name="model" />
+
+	<rosparam file="$(find pan_tilt_mech)/config/joint_names_pan_tilt_mech.yaml" command="load"/>
+  
+    <param name="robot_description" textfile="$(find pan_tilt_mech)/urdf/pan_tilt_mech.urdf" />
+  
+    <node  name="joint_state_publisher_gui" pkg="joint_state_publisher_gui" type="joint_state_publisher_gui" />    
+  
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find pan_tilt_mech)/turret.rviz" />
+
+    <include file="$(find gazebo_ros)/launch/empty_world.launch" >
+		<arg name="debug" value="$(arg debug)"/>
+		<arg name="gui" value="$(arg gui)"/>
+		<arg name="verbose" value="$(arg verbose)"/>
+		<arg name="paused" value="$(arg paused)"/>
+    </include>        
+
+    <node name="tf_footprint_base" pkg="tf" type="static_transform_publisher"  args="0 0 0 0 0 0 base_link base_footprint 40" />  
+
+    <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model pan_tilt_mech" output="screen" />    
+    
+	<!-- <param name="robot_description" command="cat $(find pan_tilt_mech)/urdf/pan_tilt_mech.urdf"/> -->
+
+    <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" ns="/pan_tilt_mech" args=" joint_state_controller pan_transmission tilt_transmission "/>
+
+	<node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen">
+        <!-- <remap from="/joint_states" to="/pan_tilt_mech/joint_states"/> -->
+	</node>    
+
+</launch>
