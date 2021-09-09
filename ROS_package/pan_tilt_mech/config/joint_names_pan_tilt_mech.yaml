@@ -1,0 +1,14 @@
+pan_tilt_mech:
+  joint_state_controller:
+    type: joint_state_controller/JointStateController
+    publish_rate: 50
+
+  pan_transmission:
+    type: effort_controllers/JointPositionController
+    joint: pan_joint
+    pid: {p: 100.0, i: 0.0, d: 20.0}
+
+  tilt_transmission:
+    type: effort_controllers/JointPositionController
+    joint: tilt_joint
+    pid:  {p: 100.0, i: 0.0, d: 20.0}

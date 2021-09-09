@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+     Commit Version: 1.6.0-1-g15f4949  Build Version: 1.6.7594.29634
+     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+<robot name="pan_tilt_mech" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <link name="world">
+  </link>
+  <joint name="fixed" type="fixed">
+    <parent link="world"/>
+    <child link="base_link"/>
+  </joint>
+	  <gazebo>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+      <robotNamespace>/pan_tilt_mech</robotNamespace>
+      <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
+    </plugin>
+  </gazebo>
+
+<gazebo reference="tilt_link">
+    <material>Gazebo/Black</material>
+    <sensor type="ray" name="laser">
+        <pose>0 0.015 0.06 0 -1.57 0</pose>
+        <visualize>true</visualize>
+        <update_rate>50</update_rate>
+        <ray>
+            <scan>
+                <horizontal>
+                    <samples>10</samples>
+                    <resolution>1</resolution>
+                    <min_angle>0.0</min_angle>
+                    <max_angle>0.0</max_angle>
+                </horizontal> 
+                <vertical>
+                    <samples>10</samples>
+                    <resolution>1</resolution>
+                    <min_angle>0.0</min_angle>
+                    <max_angle>0.0</max_angle>
+                </vertical>
+            </scan>
+            <range>
+                <min>0.01</min>
+                <max>100</max>
+                <resolution>1.0</resolution>
+            </range>
+        </ray>
+        <plugin filename="libgazebo_ros_range.so" name="gazebo_ros_range">
+            <gaussianNoise>0.005</gaussianNoise>
+            <alwaysON>true</alwaysON>
+            <updateRate>50</updateRate>
+            <topicName>gun</topicName>
+            <frameName>laser_distance</frameName>
+            <radiation>INFRARED</radiation>
+            <fov>0.2967</fov>
+        </plugin>
+
+    </sensor>
+  </gazebo>  
+  <link
+    name="base_link">
+    <inertial>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <mass
+        value="0.2918" />
+      <inertia
+        ixx="0.0012785"
+        ixy="7.8447E-20"
+        ixz="-6.4806E-19"
+        iyy="0.003088"
+        iyz="-8.7448E-07"
+        izz="0.0026035" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://pan_tilt_mech/meshes/base_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://pan_tilt_mech/meshes/base_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <link
+    name="pan_link">
+    <inertial>
+      <origin
+        xyz="1.249E-16 0.027895 -0.0078715"
+        rpy="0 0 0" />
+      <mass
+        value="0.3185" />
+      <inertia
+        ixx="0.00099595"
+        ixy="-9.0846E-19"
+        ixz="1.8127E-18"
+        iyy="0.0011829"
+        iyz="-6.8855E-06"
+        izz="0.00062446" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://pan_tilt_mech/meshes/pan_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 0.3" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://pan_tilt_mech/meshes/pan_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="pan_joint"
+    type="revolute">
+    <origin
+      xyz="0.010936 -0.086324 0.12913"
+      rpy="1.5708 0 -1.57" />
+    <parent
+      link="base_link" />
+    <child
+      link="pan_link" />
+    <axis
+      xyz="0 1 0" />
+    <limit
+      lower="-3.14"
+      upper="3.14"
+      effort="10"
+      velocity="10" />
+  </joint>
+  <link
+    name="tilt_link">
+    <inertial>
+      <origin
+        xyz="0.005 0.01059 -1.3878E-17"
+        rpy="0 0 0" />
+      <mass
+        value="0.26299" />
+      <inertia
+        ixx="0"
+        ixy="0"
+        ixz="0"
+        iyy="0"
+        iyz="0"
+        izz="0" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://pan_tilt_mech/meshes/tilt_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 0.3" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://pan_tilt_mech/meshes/tilt_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+
+
+  <joint
+    name="tilt_joint"
+    type="revolute">
+    <origin
+      xyz="0 0.067 0"
+      rpy="0 -1.5708 0" />
+    <parent
+      link="pan_link" />
+    <child
+      link="tilt_link" />
+    <axis
+      xyz="1 0 0" />
+    <limit
+      lower="-3.14"
+      upper="3.14"
+      effort="10"
+      velocity="10" />
+  </joint>
+
+    	<link name="gun_link">
+  		<collision>
+  			<origin xyz="0 0 0" rpy="0 0 0"/>
+  			<geometry>
+  				<cylinder radius="0.005" length="0.05"/>
+  			</geometry>
+  		</collision>
+  		<visual>
+  			<origin xyz="0 0 0" rpy="0 0 0"/>
+  			<geometry>
+  				<cylinder radius="0.005" length="0.10"/>
+  			</geometry>
+  		</visual>
+  		<inertial>
+  			<origin xyz="0 0 0" rpy="0 0 0"/>
+  			<mass value="0.3"/>
+  			<inertia ixx="0.3" ixy="0.0" ixz="0.0" iyy="0.3" iyz="0.0"
+  				izz="0.3"/>
+  		</inertial>
+  	</link>
+
+<link name="tripod">
+    <collision>
+      <origin xyz="0.02 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+         <mesh filename="package://pan_tilt_mech/meshes/TRIPOD.stl" scale="0.001 0.001 0.001" />
+      </geometry>
+    </visual>
+
+    <inertial>
+      <mass value="1e-5" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0" />
+    </inertial>
+  </link>
+
+ <joint name="tripod" type="fixed">
+    <axis xyz="0 0 0" />
+    <origin xyz="0 -0.4 0.3" rpy="1.57 0 0"/>
+    <parent link="base_link"/>
+    <child link="tripod"/>
+  </joint>
+
+ <joint name="intelrealsense2" type="fixed">
+    <axis xyz="0 0 0" />
+    <origin xyz="0 0.15 0" rpy="-1.57 1.57 0"/>
+    <parent link="tripod"/>
+    <child link="camera_link2"/>
+  </joint>
+
+<link name="camera_link2">
+    <collision>
+      <origin xyz="0.02 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0.01 0 0" rpy="1.5707 0 1.5707"/>
+      <geometry>
+         <mesh filename="package://pan_tilt_mech/meshes/NAVRS.STL" />
+      </geometry>
+    </visual>
+
+    <inertial>
+      <mass value="1e-5" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0" />
+    </inertial>
+  </link>
+
+
+
+  <joint name="camera_optical_joint2" type="fixed">
+    <origin xyz="0 0 0" rpy="-1.57 0 -1.57"/>
+    <parent link="camera_link2"/>
+    <child link="camera_rgb_frame2"/>
+  </joint>
+
+  <link name="camera_rgb_frame2">
+  </link>
+
+  <joint name="camera_depth_joint2" type="fixed">
+    <origin xyz="0 0 0" rpy="-1.57 0 -1.57"/>
+    <parent link="camera_link2"/>
+    <child link="camera_depth_frame2"/>
+  </joint>
+
+    <link name="camera_depth_frame2">
+  </link>
+
+
+
+<gazebo reference="camera_link2">
+    <sensor type="depth" name="intelrealsense2">
+      <always_on>1</always_on>
+      <visualize>true</visualize>
+      <camera>
+        <horizontal_fov>1.047</horizontal_fov>
+        <image>
+          <width>640</width>
+          <height>480</height>
+          <format>R8G8B8</format>
+        </image>
+        <depth_camera>
+
+        </depth_camera>
+        <clip>
+          <near>0.1</near>
+          <far>100</far>
+        </clip>
+      </camera>
+      <plugin name="intelrealsense" filename="libgazebo_ros_openni_kinect.so">
+        <alwaysOn>true</alwaysOn>
+        <updateRate>10.0</updateRate>
+        <cameraName>camera2</cameraName>
+        <frameName>camera_depth_frame2</frameName>
+        <imageTopicName>/camera/color/image_raw2</imageTopicName>
+        <depthImageTopicName>/camera/depth/image_raw2</depthImageTopicName>
+        <pointCloudTopicName>depth/points2</pointCloudTopicName>
+        <cameraInfoTopicName>/camera/color/camera_info2</cameraInfoTopicName>
+        <depthImageCameraInfoTopicName>/camera/depth/camera_info2</depthImageCameraInfoTopicName>
+         <pointCloudCutoff>0.2</pointCloudCutoff>
+         <pointCloudCutoffMax>10.0</pointCloudCutoffMax>
+        <hackBaseline>0.07</hackBaseline>
+        <distortionK1>0.0</distortionK1>
+        <distortionK2>0.0</distortionK2>
+        <distortionK3>0.0</distortionK3>
+        <distortionT1>0.0</distortionT1>
+        <distortionT2>0.0</distortionT2>
+        <CxPrime>0.0</CxPrime>
+        <Cx>0.0</Cx>
+        <Cy>0.0</Cy>
+        <focalLength>0.0</focalLength>
+      </plugin>
+    </sensor>
+  </gazebo>
+
+
+  	<joint name="gun_link" type="fixed">
+  		<parent link="tilt_link"/>
+  		<child link="gun_link"/>
+  		<origin xyz="0 0.015 0.03" rpy="0 0 0"/>
+  		<axis xyz="0 1 0"/>
+  		<dynamics damping="0.7"/>
+  	</joint>
+
+  	<transmission name="pan_transmission">
+  		<type>transmission_interface/SimpleTransmission</type>
+  		<joint name="pan_joint">
+  			<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+  		</joint>
+  		<actuator name="pan_motor">
+  			<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+  			<mechanicalReduction>1</mechanicalReduction>
+  		</actuator>
+  	</transmission>
+
+  	<transmission name="tilt_transmission">
+  		<type>transmission_interface/SimpleTransmission</type>
+  		<joint name="tilt_joint">
+  			<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+  		</joint>
+  		<actuator name="tilt_motor">
+  			<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+  			<mechanicalReduction>1</mechanicalReduction>
+  		</actuator>
+  	</transmission>    
+</robot>
