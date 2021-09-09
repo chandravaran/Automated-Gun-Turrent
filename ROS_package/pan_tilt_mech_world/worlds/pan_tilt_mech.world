@@ -1,0 +1,38 @@
+<?xml version="1.0" ?>
+<sdf version="1.5">
+	<world name="sky">
+		<atmosphere type='adiabatic'/>
+	    <scene>
+	      <sky>
+	        <clouds>
+	          <speed>12</speed>
+	        </clouds>
+	      </sky>
+	    </scene>
+
+	    <include>
+	    	<selfCollide>true</selfCollide>
+	      <uri>model://particle_sphere</uri>
+	      <name>particle_sphere</name>
+	      <pose>0 5 0 0 0 0</pose>
+	    </include>
+
+		<include>
+	      <uri>model://ground_plane</uri>
+	    </include>
+
+	    <!-- Global light source -->
+	    <include>
+	      <uri>model://sun</uri>
+	    </include>
+
+	   
+	    <physics name='default_physics' default='0' type='ode'>
+	      <max_step_size>0.001</max_step_size>
+	      <real_time_factor>1</real_time_factor>
+	      <real_time_update_rate>1000</real_time_update_rate>
+	    </physics>
+
+    	<!-- <plugin name="counterAttack" filename="libcounterAttack.so"/> -->
+	</world>
+</sdf>

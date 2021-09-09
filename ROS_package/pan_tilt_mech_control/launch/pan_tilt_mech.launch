@@ -14,6 +14,7 @@
     <node name="rviz" pkg="rviz" type="rviz" args="-d $(find pan_tilt_mech)/turret.rviz" />
 
     <include file="$(find gazebo_ros)/launch/empty_world.launch" >
+	    <arg name="world_name" value="$(find pan_tilt_mech_world)/worlds/pan_tilt_mech.world"/>
 		<arg name="debug" value="$(arg debug)"/>
 		<arg name="gui" value="$(arg gui)"/>
 		<arg name="verbose" value="$(arg verbose)"/>
